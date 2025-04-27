@@ -1,14 +1,21 @@
 from numpy import matrix
-from puzzle import Puzzle
-from dfs_solver import solve_dfs
-from bfs_solver import solve_bfs
-from a_star_solver import solve_a_star
-from input_handler import InputHandler
-from command import MoveUp, MoveDown, MoveLeft, MoveRight
+from modules.puzzle import Puzzle
+from solvers.dfs_solver import solve_dfs
+from solvers.bfs_solver import solve_bfs
+from solvers.a_star_solver import solve_a_star
+from modules.input_handler import InputHandler
+from modules.command import MoveUp, MoveDown, MoveLeft, MoveRight
 
 
 def iniciar_puzzle():
-    puzzle = Puzzle()
+    
+    try:
+        size_input = input('Digite o tamanho do puzzle (pressione Enter para usar 4): ')
+        size = int(size_input) if size_input.strip() != '' else 4
+    except ValueError:
+        size = 4
+
+    puzzle = Puzzle(size=size)
 
     input_handler = InputHandler()
     input_handler.register_command(MoveUp(puzzle), 'up')

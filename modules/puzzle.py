@@ -5,24 +5,29 @@ from numpy import matrix
 
 class Puzzle:
 
-    size = 3    # Tamanho do tabuleiro (size x size)
+    size = 4    # Tamanho do tabuleiro (size x size)
 
-    def __init__(self, generate=True) -> None:
+    def __init__(self, size=4, generate=True) -> None:
         """Inicializa o jogo e define o estado atual do tabuleiro"""
+        self.size = size
         self.state = None
-        self.goal_state = [
-            [1,2,3],
-            [4,5,6],
-            [7,8,0]
-        ]
-        # self.goal_state = [
-        #     [1,2,3,4],
-        #     [5,6,7,8],
-        #     [9,10,11,12],
-        #     [13,14,15,0]
-        # ]
-        self.generate_board()
-        print(matrix(self.state))
+        self.goal_state = self.generate_goal_state()  # cria o objetivo dinamicamente
+        if generate:
+            self.generate_board()
+            print(matrix(self.state))
+            
+    def generate_goal_state(self):
+        """Gera o estado objetivo automaticamente baseado no tamanho"""
+        goal = []
+        n = 1
+        for i in range(self.size):
+            row = []
+            for j in range(self.size):
+                row.append(n)
+                n += 1
+            goal.append(row)
+        goal[self.size-1][self.size-1] = 0  # Último elemento é o espaço vazio
+        return goal
         
     def serialize(self) -> str:
         return ''.join(str(cell) for row in self.state for cell in row)

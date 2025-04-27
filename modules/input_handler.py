@@ -1,4 +1,4 @@
-from command import Command
+from modules.command import Command
 
 
 class InputHandler:
