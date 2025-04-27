@@ -94,9 +94,11 @@ class Puzzle:
     @property
     def is_solvable(self) -> bool:
         """Checa se a configuração atual possui solução"""
-        # N é sempre par, portanto isso não precisa ser checado
-        if self.find_empty()[0] % 2 == 0:
-            return True if self.count_inversions() % 2 != 0 else False
+        if self.size % 2 == 0:
+            if self.find_empty()[0] % 2 == 0:
+                return True if self.count_inversions() % 2 != 0 else False
+            else:
+                return True if self.count_inversions() % 2 == 0 else False
         else:
             return True if self.count_inversions() % 2 == 0 else False
 
