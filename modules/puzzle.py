@@ -5,8 +5,6 @@ from numpy import matrix
 
 class Puzzle:
 
-    size = 4    # Tamanho do tabuleiro (size x size)
-
     def __init__(self, size=4, generate=True) -> None:
         """Inicializa o jogo e define o estado atual do tabuleiro"""
         self.size = size
@@ -35,15 +33,20 @@ class Puzzle:
     def copy(self):
         new_puzzle = Puzzle(generate=False)
         new_puzzle.state = deepcopy(self.state)
+        new_puzzle.size = self.size
         return new_puzzle
 
     def generate_board(self):
         self.state = deepcopy(self.goal_state)
         n_moves = random.randint(100, 500)
         for i in range(n_moves):
-            direction = random.choice(['up', 'down', 'left', 'right'])
-            if self.is_direction_legal(direction):
-                self.move(direction)
+            x1 = random.randint(0, self.size-1)
+            y1 = random.randint(0, self.size-1)
+
+            x2 = random.randint(0, self.size-1)
+            y2 = random.randint(0, self.size-1)
+
+            self.state[x1][y1],self.state[x2][y2] = self.state[x2][y2],self.state[x1][y1]
 
     def find_empty(self) -> tuple[int, int] | None:
         """Encontra a posição da casa vazia no tabuleiro"""
